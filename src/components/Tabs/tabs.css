@@ -1,0 +1,31 @@
+.bacimage {
+    background-image: url('../../assets/pjimage.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.tab {
+    height: inherit;
+    overflow: scroll;
+}
+
+.dropdown {
+    padding: 1rem;
+}
+.row {
+    display: flex;
+    justify-content: center;
+}
+.col {
+    padding: 0 1rem;
+}
+
+.buttons {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+.table {
+    padding: 2rem;
+}

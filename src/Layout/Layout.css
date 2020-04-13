@@ -1,0 +1,66 @@
+.header {
+    height: 100px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background-color: green;
+    color: white;
+    /* text-align: center; */
+}
+
+.footer {
+    height: 60px;
+    /* position: fixed;
+    left: 0;
+    top: 0; */
+    width: 100%;
+    background-color: black;
+    color: white;
+}
+
+/* .bacimage {
+    background-image: url('../assets/pjimage.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+} */
+
+.navbar{ 
+    width: 100%;
+    display: flex;
+    /* padding: 1rem; */
+    /* background-color: green; */
+    justify-content: center;
+    height: 6%;
+}
+
+.backImage {
+    background: url('../assets/bordo-header.png');
+    /* background-size: cover; */
+    background-repeat: no-repeat;
+    background-size: 180% 100%;
+    background-position: center;
+}
+
+.navbar.backImage div {
+    margin: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.navbar.backImage div:hover {
+    color: black;
+}
+
+.navbar.backImage div.active {
+    color: black;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+.col {
+    padding: 0 1rem;
+}
