@@ -64,3 +64,40 @@
 .col {
     padding: 0 1rem;
 }
+
+.background {
+    background-color: #ececec;
+    color: red;
+}
+
+li ant-menu-item-selected {
+    color: white;
+    background-color: green;
+}
+
+.editable-row .ant-form-explain {
+    position: absolute;
+    font-size: 12px;
+    margin-top: -4px;
+  }
+  
+.tableHeader {
+    background-color: #037832;
+}
+
+.selected {
+    color: white !important;
+    background-color: green !important;
+    margin: 0 !important;
+}
+
+.defaultStyle {
+    color: green !important;
+    background-color: #ececec !important;
+    margin: 0 !important;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-around;
+}

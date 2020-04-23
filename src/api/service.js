@@ -57,6 +57,41 @@ const RESTAPI = {
         addHeaders(params);
 
         return Rest(params);
+    },
+    getFieldTypes: (params = {}) => {
+        params.url = API.DEVICE.DEVICETYPES + '/GetFieldTypes';
+        params.method = 'GET';
+        addHeaders(params);
+
+        return Rest(params);
+    },
+    deleteDeviceParameter: (params = {}) => {
+        params.url = API.DEVICE.DEVICETYPES + '/DeleteFieldDefinition';
+        params.method = 'GET';
+        addHeaders(params);
+
+        return Rest(params);
+    },
+    addFieldType: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/AddFieldType';
+        params.method = 'GET';
+        addHeaders(params);
+
+        return Rest(params);
+    },
+    editFieldTyoe: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/UpdateFieldType';
+        params.method = 'GET';
+        addHeaders(params);
+
+        return Rest(params);
+    },
+    deleteFieldType: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/DeleteFieldType';
+        params.method = 'GET';
+        addHeaders(params);
+
+        return Rest(params);
     }
 }
 

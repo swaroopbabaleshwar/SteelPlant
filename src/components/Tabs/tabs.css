@@ -29,3 +29,8 @@
 .table {
     padding: 2rem;
 }
+
+.th {
+    color: white;
+    background-color: green;
+}

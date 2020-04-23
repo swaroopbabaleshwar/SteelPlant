@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Buttons } from './Main';
-import MasterTable from '../components/Tabs/MasterTable';
 import RestAPI from '../api';
 
-import { Row, Col, Card, Select } from 'antd';
+import { Buttons } from './Main';
+import MasterTable from './EditableTable';
+
+import { Row, Col, Card, Select, Button, Modal, Input } from 'antd';
 const { Option } = Select;
 let  STAND = [
 	{
@@ -766,7 +767,7 @@ Rake = Rake.map((s, index) => {
 });
 
 class DeviceType extends Component {
-    constructor() {
+    constructor(props) {
         super();
         this.state = {
             // types: [{ type: 'STAND', desc: 'stand' },
@@ -775,54 +776,39 @@ class DeviceType extends Component {
             //         {type: 'TB', desc: 'TailBreaker'}
             //     ],
 			selectedDeviceType: '',
-			deviceParamsData: []
+			key: '',
+			type: '',
+			input: '',
+			fieldType: {},
+			fieldTypes: []
         }
     }
 
-    onChange = (key, e) => {
+    onChange = (type, key, e) => {
+		if (type === 'fieldType') {
+			this.setState({ fieldType: {Id: e.key, Name: e.value} });
+			return;
+		}
 		let parentThis = this.props.self;
         let index =  e.children.indexOf(' ');
-		this.setState({ selectedDeviceType: e.children.substr(0, index) });
+		this.setState({ selectedDeviceType: e.children.substr(0, index), key });
 		parentThis.setState({ selectedDeviceType: e.children.substr(0, index), key });
-		this.getDeviceParameters(key);
 	}
 	
-	getDeviceParameters = (key) => {
-		RestAPI.getDeviceParameters({
-			params: {
-				id: key
-			}
-		}).then(resp => {
-			if (resp && resp.data) {
-				this.setState({ deviceParamsData: resp.data });
-			}
-			console.log(resp);
-		}).catch(err => {
-			console.log(err);
-		});
+	componentDidMount() {
+		this.getFieldTypes();
 	}
 
-	editDeviceParameter = (item, row) => {
-		let fields = {
-			DataType: 1,
-			Description: "Machine Enable",
-			DeviceType_Id: 2,
-			FieldTypeDefinition_Id: 1,
-			Id: 10069,
-			Length: null,
-			Name: "PR_Enable",
-			Unit: "--"
-		}
-		RestAPI.editDeviceParameter({
-			params: {
-				...fields
+	getFieldTypes = () => {
+		RestAPI.getFieldTypes()
+        .then(resp => {
+            if (resp && resp.data) {
+				this.setState({ fieldTypes: resp.data, input: '', type: '', fieldType: {Id: '', Name: ''} });
 			}
-		}).then(resp => {
-			this.getDeviceParameters(item.Id);
-			console.log(resp);
-		}).catch(err => {
-			console.log(err);
-		});
+            console.log(resp);
+        }).catch(err => {
+            console.log(err);
+        });
 	}
 
 	addDevice = (device) => {
@@ -839,15 +825,20 @@ class DeviceType extends Component {
 	}
 
 	addDeviceparameterList = (item) => {
-		RestAPI.addDeviceParameters({
+		RestAPI.addDeviceparameters({
 			params: {
 				...item
 			}
-		}).then(resp => {
-			console.log(resp);
-		}).catch(err => {
-			console.log(err);
 		});
+		// RestAPI.addDeviceParameters({
+		// 	params: {
+		// 		...item
+		// 	}
+		// }).then(resp => {
+		// 	console.log(resp);
+		// }).catch(err => {
+		// 	console.log(err);
+		// });
 	}
 
 	editDevice = (key, name) => {
@@ -875,38 +866,122 @@ class DeviceType extends Component {
 			console.log(err);
 		});
 	}
+	openModal = (type, e) => {
+		if (type === 'Delete') {
+			this.deleteFieldType();
+			return;
+		}
+		let input = type ===  'Edit' ? this.state.fieldType.Name : '' ;
+		this.setState({ type, input });
+	}
+	handleInput = (e) => {
+		this.setState({ input: e.target.value });
+	}
+	handleCRUD = () => {
+		if (this.state.type === 'Add' && (this.state.input !== '')) {
+			this.addFieldType();
+		}
+		if (this.state.type === 'Edit' && (this.state.input !== '')) {
+			this.editFieldTyoe();
+		}
+	}
+	addFieldType = () => {
+		RestAPI.addFieldType({
+			params: {
+				type: this.state.input
+			}
+		}).then(resp => {
+			this.getFieldTypes();
+			console.log(resp);
+		}).catch(err => {
+			console.log(err);
+		});
+	}
+	editFieldTyoe = () => {
+		RestAPI.editFieldTyoe({
+			params: {
+				id: this.state.fieldType.Id,
+				type: this.state.input
+			}
+		}).then(resp => {
+			this.getFieldTypes();
+			console.log(resp);
+		}).catch(err => {
+			console.log(err);
+		})
+	}
+	deleteFieldType = () => {
+		RestAPI.deleteFieldType({
+			params: {
+				id: this.state.fieldType.Id
+			}
+		}).then(resp => {
+			this.getFieldTypes();
+			console.log(resp)
+		}).catch(err => {
+			console.log(err);
+		})
+	}
 
     render() {
 		let parentThis = this.props.self;
-
-        if (this.state.selectedDeviceType === 'STAND') {
-            var tableData = STAND;
-        }
-        if (this.state.selectedDeviceType === 'PR') {
-            var tableData = PR;
-        }
-        if (this.state.selectedDeviceType === 'SH') {
-            var tableData = SH;
-        }
-        if (this.state.selectedDeviceType === 'Apron') {
-            var tableData = Apron;
-        }
-        if (this.state.selectedDeviceType === 'Rake') {
-            var tableData = Rake;
-        }
-        if (this.state.selectedDeviceType === 'RT') {
-            var tableData = RT;
-        }
-        if (this.state.selectedDeviceType === 'TB') {
-            var tableData = TB;
-        }        
-        if (this.state.selectedDeviceType === 'TC') {
-            var tableData = TC;
-        }
-
+		let deviceTypekey = this.state.key;
         return(
-            <div className='row'>
-                <Col span={6} className='col'>
+            <div>
+				<Row style={{ backgroundColor: '#037832'}}>
+					<Col span={3} style={{ padding: '1rem 0', 'color': 'white' }}>Select Equipment :</Col>
+					<Col span={5} style={{ padding: '12px 0' }}>
+						<Select
+                            showSearch
+                            style={{ width: '80%' }}
+                            placeholder="Select a Device Type"
+                            optionFilterProp="children"
+                            onChange={this.onChange.bind(this, 'deviceType')}
+                            value={this.state.selectedDeviceType}
+                            showSearch showArrow allowClear={false}
+                        >
+                            {parentThis.state.types.map(device => <Option key={device.Id} value={device.Key}>{device.Name + ' - ' + device.Description}</Option>)}
+                        </Select>
+					</Col>
+					<Col span={4}>
+						<Buttons self={this} type='Device'/>
+					</Col>
+					<Col span={3} style={{ padding: '1rem 0', 'color': 'white' }}>Select Field Type :</Col>
+					<Col span={5} style={{ padding: '12px 0' }}>
+						<Select
+                            showSearch
+                            style={{ width: '80%' }}
+                            placeholder="Select a Field Type"
+                            optionFilterProp="children"
+                            onChange={this.onChange.bind(this, 'fieldType')}
+                            value={this.state.fieldType.Name}
+                            showSearch showArrow allowClear={false}
+                        >
+                            {this.state.fieldTypes.map(field => <Option key={field.Id} value={field.Name}>{field.Name}</Option>)}
+                        </Select>
+					</Col>
+					<Col span={4} style={{ padding: '12px 0' }}>
+						<Button type='primary' onClick={this.openModal.bind(this, 'Add')}>Add</Button>
+						<Button type='primary' onClick={this.openModal.bind(this, 'Edit')}>Edit</Button>
+						<Button type='danger' onClick={this.openModal.bind(this, 'Delete')}>Delete</Button>
+					</Col>
+				</Row>
+				<div>
+					{this.state.key && <MasterTable deviceTypekey={deviceTypekey} />}
+				</div>
+				<Modal
+                    title={this.state.type + ' Field Type'}
+                    visible={this.state.type}
+                    onCancel={this.handleClose}
+                    footer={null}
+                >
+                    <div>
+                        <Input placeholder='Type Here' onChange={this.handleInput} value={this.state.input} />
+                        <Button onClick={this.handleCRUD}>{this.state.type}</Button>
+                    </div>
+                </Modal>            
+
+                {/* <Col span={6} className='col'>
                     <Card title="Type">
                         <Select
                             showSearch
@@ -924,7 +999,7 @@ class DeviceType extends Component {
                 </Col>
                 <Col span={18}>
                     {this.state.selectedDeviceType && <MasterTable self={this} data={this.state.deviceParamsData} />}
-                </Col>
+                </Col> */}
                 {/* <Col span={4} className='col'>
                     <Card title="Description">
                         <Select

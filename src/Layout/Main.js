@@ -5,10 +5,11 @@ import StoppageClasses from './StoppageClasses';
 import ConsumptionClasses from './ConsumptionClasses';
 import GradeData from './GradeData';
 
-import { Layout, Menu, Breadcrumb, Button, Modal, Input } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import { Layout, Menu, Breadcrumb, Button, Modal, Input, Icon, Drawer, Switch } from 'antd';
+import { UserOutlined, LaptopOutlined, NotificationOutlined, AppstoreOutlined, MenuUnfoldOutlined, MenuFoldOutlined, PieChartOutlined, DesktopOutlined, ContainerOutlined, MailOutlined } from '@ant-design/icons';
 import RestAPI from '../api';
 import { responsiveArray } from 'antd/lib/_util/responsiveObserve';
+import './Layout.css';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -19,8 +20,8 @@ class MainLayout extends Component {
         this.state = {
             height: window.innerHeight - 160,
             types: [],
-            type: 'device',
-            selectedDeviceType: '',
+            type: '1',
+            // selectedDeviceType: '',
             plantTypes: [ 'BAR MILL', 'WIRE ROD MILL', 'BAR + WIRE ROD MILL', 'GARRET LINE' ],
             plantType: '',
             stoppageClasses: [ 'ELECTRICAL', 'MECHENICAL', 'PROCESS' ],
@@ -38,12 +39,21 @@ class MainLayout extends Component {
             gradeCodes: ['231', '235', '234'],
             gradeCode: '',
             descriptions: ['Test', 'Test', 'Test'],
-            desc: ''
+            desc: '',
+            collapsed: false,
+            theme: 'dark',
         }
     }
 
     componentDidMount() {
         this.getDeviceaTypes();
+        let submenu = document.getElementsByClassName('ant-menu-submenu-title');
+        if (submenu) {
+            let menus = Array.from(submenu);
+            menus.forEach(menu => {
+                menu.style.margin = 0;
+            });
+        }
     }
     getDeviceaTypes = () => {
         RestAPI.getDeviceaTypes()
@@ -60,88 +70,131 @@ class MainLayout extends Component {
                 console.log(err);
             })
     }
-    handeMenu = (type, e) => {
-        console.log(type, e);
-        this.setState({ type });
-    }
+    // handeMenu = (type, e) => {
+    //     console.log(type, e);
+    //     this.setState({ type });
+    // }
 
     onChange = (type, value, e) => {
         this.setState({ [type]: value });
         console.log(value)
     }
+    selected = ({ item, key, keyPath, selectedKeys, domEvent }) => {
+        console.log(item, key );
+        this.setState({ type: key})
+    }
 
+    toggleCollapsed = () => {
+        this.setState(prevState => ({ collapsed: !prevState.collapsed }));
+    };
+
+    changeTheme = value => {
+        this.setState({
+            theme: value ? 'dark' : 'light',
+        });
+    };
+    
     render() {
         return(
-            <div style={{ height: this.state.height, 'backgroundColor': '#f4f4f4' }}>
-                <Layout style={{ height: 'inherit'}}>
-                    <Sider width={200} className="site-layout-background">
+            <div style={{ height: this.state.height, 'backgroundColor': '#ececec' }}>
+                <div style={{ height: 'inherit', display: 'flex', overflowY: 'scroll'}}>
+                    <div style={{ width: this.state.collapsed ? 82 : 256 }}>
+                        <div className='buttons'>
+                            <Button type="primary" onClick={this.toggleCollapsed}>
+                                {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
+                            </Button>
+                            <Switch
+                                checked={this.state.theme === 'dark'}
+                                onChange={this.changeTheme}
+                                checkedChildren="Dark"
+                                unCheckedChildren="Light"
+                                style={{marginTop: '5px'}}
+                            />
+                        </div>
                         <Menu
-                            mode="inline"
+                            onSelect={this.selected}
                             defaultSelectedKeys={['1']}
                             defaultOpenKeys={['sub1']}
-                            style={{ height: 'inherit',overflowY: 'scroll', borderRight: 0 }}
+                            mode="inline"
+                            theme={this.state.theme}
+                            inlineCollapsed={this.state.collapsed}
                         >
-                            <SubMenu key="sub1" title={ <span> MASTER DATA </span>} >
-                                <Menu.Item key="1" onClick={this.handeMenu.bind(this, 'device')}>Devices</Menu.Item>
-                                <SubMenu key='settings' title='Settings' >
-                                    <Menu.Item key="2" onClick={this.handeMenu.bind(this, 'plantData')}>Plant Data</Menu.Item>
-                                    {/* <Menu.Item key="3" onClick={this.handeMenu.bind(this, 'productData')}>Product Data</Menu.Item> */}
-                                    <Menu.Item key="4" onClick={this.handeMenu.bind(this, 'gradeData')}>Grade Data</Menu.Item>
-                                    <Menu.Item key="6" onClick={this.handeMenu.bind(this, 'consumption')}>Consumption Data</Menu.Item>
-                                    <Menu.Item key="7" onClick={this.handeMenu.bind(this, 'stoppage')}>Stoppage Data</Menu.Item>
+                            <Menu.Item key="1">
+                                <PieChartOutlined />
+                                <span>Master Data</span>
+                            </Menu.Item>
+                            <SubMenu
+                                key="sub1"
+                                title={
+                                <span>
+                                    <MailOutlined />
+                                    <span>Settings</span>
+                                </span>
+                                }
+                            >
+                                <Menu.Item key="5">Plant Data</Menu.Item>
+                                <Menu.Item key="6">Grade Data</Menu.Item>
+                                <Menu.Item key="7">Consumption Data</Menu.Item>
+                                <Menu.Item key="8">Stoppage Data</Menu.Item>
+                            </SubMenu>
+                            <SubMenu
+                                key="sub2"
+                                title={
+                                <span>
+                                    <AppstoreOutlined />
+                                    <span>Project Data</span>
+                                </span>
+                                }
+                            >
+                                <Menu.Item key="9">Option 9</Menu.Item>
+                                <Menu.Item key="10">Option 10</Menu.Item>
+                                <SubMenu key="sub3" title="Submenu">
+                                    <Menu.Item key="11">Option 11</Menu.Item>
+                                    <Menu.Item key="12">Option 12</Menu.Item>
                                 </SubMenu>
                             </SubMenu>
-
-                            <SubMenu key="project Data" title={ <span> Project Data </span>} >
-                                <Menu.Item key="5">option5</Menu.Item>
-                                <Menu.Item key="8">option8</Menu.Item>
-                            </SubMenu>
-
-                            <SubMenu key="Recipe Table" title={ <span> Recipe table </span>} >
-                                <Menu.Item key="5">option5</Menu.Item>
-                                <Menu.Item key="8">option8</Menu.Item>
-                            </SubMenu>
-
-                            <SubMenu key="Production Plan" title={ <span> Production Plan </span>} >
-                                <Menu.Item key="5">option5</Menu.Item>
-                                <Menu.Item key="8">option8</Menu.Item>
-                            </SubMenu>
-
-                            <SubMenu key="Stoppage Management" title={ <span> Stoppage Management </span>} >
-                                <Menu.Item key="5">option5</Menu.Item>
-                                <Menu.Item key="8">option8</Menu.Item>
-                            </SubMenu>
-
-                            <SubMenu key="Consumption Management" title={ <span> Consumption Management </span>} >
-                                <Menu.Item key="5">option5</Menu.Item>
-                                <Menu.Item key="8">option8</Menu.Item>
-                            </SubMenu>
-                            <SubMenu key="Reports" title={ <span> Reports </span>} >
-                                <Menu.Item key="5">option5</Menu.Item>
-                                <Menu.Item key="8">option8</Menu.Item>
-                            </SubMenu>
-                            <SubMenu key="Crew and Shift Management" title={ <span> Crew and Shift Management </span>} >
-                                <Menu.Item key="5">option5</Menu.Item>
-                                <Menu.Item key="8">option8</Menu.Item>
-                            </SubMenu>
-                            <SubMenu key="User management" title={ <span> User management </span>} >
-                                <Menu.Item key="5">option5</Menu.Item>
-                                <Menu.Item key="8">option8</Menu.Item>
-                            </SubMenu>
-                            <SubMenu key="HMI Overview" title={ <span> HMI Overview </span>} >
-                                <Menu.Item key="5">option5</Menu.Item>
-                                <Menu.Item key="8">option8</Menu.Item>
-                            </SubMenu>
+                            <Menu.Item key="2">
+                                <PieChartOutlined />
+                                <span>Recipe table</span>
+                            </Menu.Item>
+                            <Menu.Item key="3">
+                                <PieChartOutlined />
+                                <span>Production Plan</span>
+                            </Menu.Item>
+                            <Menu.Item key="4">
+                                <PieChartOutlined />
+                                <span>Stoppage Management</span>
+                            </Menu.Item>
+                            <Menu.Item key="5">
+                                <PieChartOutlined />
+                                <span>Consumption Management</span>
+                            </Menu.Item>
+                            <Menu.Item key="6">
+                                <PieChartOutlined />
+                                <span>Reports</span>
+                            </Menu.Item>
+                            <Menu.Item key="7">
+                                <PieChartOutlined />
+                                <span>Crew and Shift Management</span>
+                            </Menu.Item>
+                            <Menu.Item key="8">
+                                <PieChartOutlined />
+                                <span>User management</span>
+                            </Menu.Item>
+                            <Menu.Item key="9">
+                                <PieChartOutlined />
+                                <span>HMI Overview</span>
+                            </Menu.Item>
                         </Menu>
-                    </Sider>
-                    <Layout style={{ padding: '1rem 0' }}>
-                        { this.state.type === 'device' && <DeviceType self={this} /> }
+                    </div>
+                    <div style={{ padding: '1rem 0', 'backgroundColor': '#ececec', width: '100%' }}>
+                        { this.state.type === '1' && <DeviceType self={this} /> }
                         { this.state.type === 'plantData' && <PlantType self={this} /> }
                         { this.state.type === 'gradeData' && <GradeData self={this} /> }
                         { this.state.type === 'stoppage' && <StoppageClasses self={this} /> }
                         { this.state.type === 'consumption' && <ConsumptionClasses self={this} /> }
-                    </Layout>
-                </Layout>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -161,8 +214,10 @@ export class Buttons extends Component{
     openModal = (value, e) => {
         let parentThis = this.props.self;
 
-        if (this.state.type === 'Delete' && this.props.type == 'Device') {
-            return parentThis.deleteDevice(parentThis.props.self.state.key);
+        if (value === 'Delete' && this.props.type == 'Device') {
+            parentThis.deleteDevice(parentThis.props.self.state.key);
+            parentThis.setState({ DeviceType: '' });
+            return
         }
 
         if (value === 'Edit') {
@@ -238,11 +293,11 @@ export class Buttons extends Component{
     render() {
         return(
             <>
-                <div className='buttons'>
-                    <Button size='small' onClick={this.openModal.bind(this, 'Add')} type='primary'>Add</Button>
+                <div style={{ padding: '12px 0'}}>
+                    <Button onClick={this.openModal.bind(this, 'Add')} type='primary'>Add</Button>
                     {/* <Button size='small' onClick={this.openModal.bind(this, 'Copy')} type='primary'>Copy</Button> */}
-                    <Button size='small' onClick={this.openModal.bind(this, 'Edit')} type='primary'>Edit</Button>
-                    <Button size='small' onClick={this.openModal.bind(this, 'Delete')} type='danger'>Delete</Button>
+                    <Button onClick={this.openModal.bind(this, 'Edit')} type='primary'>Edit</Button>
+                    <Button onClick={this.openModal.bind(this, 'Delete')} type='danger'>Delete</Button>
                 </div>
                 <Modal
                     title={this.props.type}
