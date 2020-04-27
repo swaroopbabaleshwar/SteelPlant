@@ -3,7 +3,7 @@ import RestAPI from '../api';
 
 import { Table, Input, InputNumber, Popconfirm, Form, Select, Col, Button } from 'antd';
 import Highlighter from 'react-highlight-words';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, SaveOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -334,7 +334,7 @@ const deleteRecord = (record) => {
                     placeholder="Select a Data Type"
                     optionFilterProp="children"
                     onChange={handleDataType.bind(this, record)}
-                    value={data.Name}
+                    value={data ? data.Name : null}
                     showSearch showArrow allowClear={false}
                 >
                     {datatypes.map(data => <Option key={data.Id} value={data.Name}>{data.Name}</Option>)}
@@ -373,16 +373,16 @@ const deleteRecord = (record) => {
         const editable = isEditing(record);
         return editable ? (
             <span>
-                {!(record.type === 'add') ? (<><a href="javascript:;" onClick={() => save(record.Id)} style={{ marginRight: 8, }} > Save </a>
+                {!(record.type === 'add') ? (<><a href="javascript:;" onClick={() => save(record.Id)} style={{ marginRight: 8, }} > <SaveOutlined style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}} /> </a>
                     <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                    <a>Cancel</a>
+                    <a style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}}>X</a>
                     </Popconfirm></>)
-                    :<a onClick={() => add(record)}>Add</a>}
+                    :<a style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}} onClick={() => add(record)}>+</a>}
             </span>
             ) : (
                 <>
-                    <a disabled={editingKey !== ''} onClick={() => edit(record)}> Edit </a>
-                    <a onClick={() => deleteRecord(record)}> Delete </a>
+                    <a disabled={editingKey !== ''} onClick={() => edit(record)}> <EditOutlined style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}} /> </a>
+                    <a onClick={() => deleteRecord(record)}> <DeleteOutlined style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}}/> </a>
                 </>
         );
       },

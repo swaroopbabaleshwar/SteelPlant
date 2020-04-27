@@ -1,0 +1,65 @@
+<div style={{ width: this.state.collapsed ? '7%' : '20%' }}>
+                        <Button type="primary" onClick={this.toggleCollapsed} style={{ marginBottom: 16 }}>
+                            {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
+                        </Button>
+                        <Menu
+                            mode="inline"
+                            onSelect={this.selected}
+                            defaultSelectedKeys={['1']}
+                            defaultOpenKeys={['sub1']}
+                            theme="dark"
+                            style={{ height: 'inherit',overflowY: 'scroll', borderRight: 0, backgroundColor: '#ececec' }}
+                            inlineCollapsed={this.state.collapsed}
+                        >
+                            <SubMenu key="sub1" popupClassName='background' className='defaultStyle' title={ <span><UserOutlined /> MASTER DATA </span>} >
+                                <Menu.Item key="1" className={this.state.type === 'device' ? 'selected' : 'defaultStyle'} onClick={this.handeMenu.bind(this, 'device')}>Devices</Menu.Item>
+                                <SubMenu key='settings' title='Settings' className='defaultStyle'>
+                                    <Menu.Item key="2" className={this.state.type === 'plantData' ? 'selected' : 'defaultStyle'} onClick={this.handeMenu.bind(this, 'plantData')}><PieChartOutlined /> Plant Data</Menu.Item>
+                                    <Menu.Item key="4" className={this.state.type === 'gradeData' ? 'selected' : 'defaultStyle'} onClick={this.handeMenu.bind(this, 'gradeData')}><DesktopOutlined />Grade Data</Menu.Item>
+                                    <Menu.Item key="6" className={this.state.type === 'consumption' ? 'selected' : 'defaultStyle'} onClick={this.handeMenu.bind(this, 'consumption')}><ContainerOutlined />Consumption Data</Menu.Item>
+                                    <Menu.Item key="7" className={this.state.type === 'stoppage' ? 'selected' : 'defaultStyle'} onClick={this.handeMenu.bind(this, 'stoppage')}>Stoppage Data</Menu.Item>
+                                </SubMenu>
+                            </SubMenu>
+
+                            <SubMenu key="project Data" className={this.state.type === 'project' ? 'selected' : 'defaultStyle'} title={ <span> Project Data </span>} >
+                                <Menu.Item key="5" className={this.state.type === 'device' ? 'selected' : 'defaultStyle'}>option5</Menu.Item>
+                                <Menu.Item key="8" className={this.state.type === 'device' ? 'selected' : 'defaultStyle'}>option8</Menu.Item>
+                            </SubMenu>
+
+                            <SubMenu key="Recipe Table" style={{ color: 'green' }} title={ <span> Recipe table </span>} >
+                                <Menu.Item key="5" className={this.state.type === 'device' ? 'selected' : 'defaultStyle'}>option5</Menu.Item>
+                                <Menu.Item key="8" className={this.state.type === 'device' ? 'selected' : 'defaultStyle'}>option8</Menu.Item>
+                            </SubMenu>
+
+                            <SubMenu key="Production Plan" style={{ color: 'green' }} title={ <span> Production Plan </span>} >
+                                <Menu.Item key="5">option5</Menu.Item>
+                                <Menu.Item key="8">option8</Menu.Item>
+                            </SubMenu>
+
+                            <SubMenu key="Stoppage Management" style={{ color: 'green' }} title={ <span> Stoppage Management </span>} >
+                                <Menu.Item key="5">option5</Menu.Item>
+                                <Menu.Item key="8">option8</Menu.Item>
+                            </SubMenu>
+
+                            <SubMenu key="Consumption Management" style={{ color: 'green' }} title={ <span> Consumption Management </span>} >
+                                <Menu.Item key="5">option5</Menu.Item>
+                                <Menu.Item key="8">option8</Menu.Item>
+                            </SubMenu>
+                            <SubMenu key="Reports" style={{ color: 'green' }} title={ <span> Reports </span>} >
+                                <Menu.Item key="5">option5</Menu.Item>
+                                <Menu.Item key="8">option8</Menu.Item>
+                            </SubMenu>
+                            <SubMenu key="Crew and Shift Management" style={{ color: 'green' }} title={ <span> Crew and Shift Management </span>} >
+                                <Menu.Item key="5">option5</Menu.Item>
+                                <Menu.Item key="8">option8</Menu.Item>
+                            </SubMenu>
+                            <SubMenu key="User management" style={{ color: 'green' }} title={ <span> User management </span>} >
+                                <Menu.Item key="5">option5</Menu.Item>
+                                <Menu.Item key="8">option8</Menu.Item>
+                            </SubMenu>
+                            <SubMenu key="HMI Overview"  style={{ color: 'green' }}title={ <span> HMI Overview </span>} >
+                                <Menu.Item key="5">option5</Menu.Item>
+                                <Menu.Item key="8">option8</Menu.Item>
+                            </SubMenu>
+                        </Menu>
+                    </div>

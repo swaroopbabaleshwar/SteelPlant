@@ -9,7 +9,7 @@ import { Layout, Menu, Breadcrumb, Button, Modal, Input, Icon, Drawer, Switch } 
 import { UserOutlined, LaptopOutlined, NotificationOutlined, AppstoreOutlined, MenuUnfoldOutlined, MenuFoldOutlined, PieChartOutlined, DesktopOutlined, ContainerOutlined, MailOutlined } from '@ant-design/icons';
 import RestAPI from '../api';
 import { responsiveArray } from 'antd/lib/_util/responsiveObserve';
-import './Layout.css';
+import './Layout.less';
 
 const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
@@ -41,7 +41,7 @@ class MainLayout extends Component {
             descriptions: ['Test', 'Test', 'Test'],
             desc: '',
             collapsed: false,
-            theme: 'dark',
+            theme: 'light',
         }
     }
 
@@ -96,9 +96,9 @@ class MainLayout extends Component {
     
     render() {
         return(
-            <div style={{ height: this.state.height, 'backgroundColor': '#ececec' }}>
+            <div className='MainLayout' style={{ height: this.state.height, 'backgroundColor': '#ececec' }}>
                 <div style={{ height: 'inherit', display: 'flex', overflowY: 'scroll'}}>
-                    <div style={{ width: this.state.collapsed ? 82 : 256 }}>
+                    <div className='menu' style={{ width: this.state.collapsed ? 82 : 256 }}>
                         <div className='buttons'>
                             <Button type="primary" onClick={this.toggleCollapsed}>
                                 {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}

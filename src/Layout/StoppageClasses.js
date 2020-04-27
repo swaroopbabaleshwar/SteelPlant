@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Buttons } from './Main';
-import styles from './Layout.css';
+import styles from './Layout.less';
 
 import { Row, Col, Card, Select } from 'antd';
 

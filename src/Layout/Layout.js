@@ -8,7 +8,7 @@ import StorageManagement from '../components/Tabs/StorageManagement';
 import ConsumptionManagement from '../components/Tabs/ConsumptionManagement';
 import HMIOverview from '../components/Tabs/HMIOverview';
 import RecipeTable from '../components/Tabs/RecipeTable';
-import styles from './Layout.css';
+import styles from './Layout.less';
 
 import Footer from '../components/footer/Footer';
 
