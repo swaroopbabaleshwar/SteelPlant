@@ -96,9 +96,9 @@ class MainLayout extends Component {
     
     render() {
         return(
-            <div className='MainLayout' style={{ height: this.state.height, 'backgroundColor': '#ececec' }}>
+            <div className='MainLayout' style={{ 'backgroundColor': '#ececec', marginBottom: '100px' }}>
                 <div style={{ height: 'inherit', display: 'flex', overflowY: 'scroll'}}>
-                    <div className='menu' style={{ width: this.state.collapsed ? 82 : 256 }}>
+                    <div className='menu' style={{ width: this.state.collapsed ? 82 : 230 }}>
                         <div className='buttons'>
                             <Button type="primary" onClick={this.toggleCollapsed}>
                                 {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
@@ -187,7 +187,7 @@ class MainLayout extends Component {
                             </Menu.Item>
                         </Menu>
                     </div>
-                    <div style={{ padding: '1rem 0', 'backgroundColor': '#ececec', width: '100%' }}>
+                    <div style={{ 'backgroundColor': '#ececec', width: '100%' }}>
                         { this.state.type === '1' && <DeviceType self={this} /> }
                         { this.state.type === 'plantData' && <PlantType self={this} /> }
                         { this.state.type === 'gradeData' && <GradeData self={this} /> }

@@ -5,6 +5,8 @@ import { Table, Input, InputNumber, Popconfirm, Form, Select, Col, Button } from
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, SaveOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
+import './Layout.less';
+
 const { Option } = Select;
 
 const EditableCell = ({ editing, dataIndex, title, inputType, record, index, children, ...restProps }) => {
@@ -68,18 +70,6 @@ const EditableTable = (props) => {
   useEffect(() => {
     getFieldTypes();
   }, []);
-
-  useEffect(() => {
-    let tableEle = document.getElementById('table');
-    if (tableEle) {
-        let ths = tableEle.querySelectorAll("tr th");
-        ths && ths.forEach(th => {
-            th.style.backgroundColor = '#0b7906';
-            th.style.color = 'white';
-        })
-
-    }
-  });
 
 const getFieldTypes = () => {
     RestAPI.getFieldTypes()
@@ -192,9 +182,9 @@ const addDeviceParameter = () => {
         'Unit': "--",
         'type': 'add'
     };
-    allData.unshift(newData);
+    allData.push(newData);
     setData(allData);
-    edit(newData);
+    // edit(newData);
 }
 const add = async (record) => {
     delete record.type;
@@ -341,6 +331,7 @@ const deleteRecord = (record) => {
                 </Select>
             );
         },
+        // ...getColumnSearchProps('DataType')
     },
     {
         title: 'Unit',
@@ -380,12 +371,13 @@ const deleteRecord = (record) => {
                     :<a style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}} onClick={() => add(record)}>+</a>}
             </span>
             ) : (
-                <>
+                <div style={{ width: '2rem', display: 'flex' }}>
                     <a disabled={editingKey !== ''} onClick={() => edit(record)}> <EditOutlined style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}} /> </a>
                     <a onClick={() => deleteRecord(record)}> <DeleteOutlined style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}}/> </a>
-                </>
+                </div>
         );
       },
+    //   width: '200px'
     },
   ];
   const mergedColumns = columns.map(col => {
@@ -405,17 +397,17 @@ const deleteRecord = (record) => {
     };
   });
   return (
-      <>
+      <div className='EditableTable'>
         <div style={{ display: 'flex', padding: '10px' }}>
             <Col span={4} style={{ color: 'green', fontWeight: 'bold', paddingTop: '5px' }} >Device Parameter list</Col>
-            <Col span={4}>
+            {/* <Col span={4}>
                 <Button type='primary' onClick={addDeviceParameter}>Add</Button>
-            </Col>
+            </Col> */}
         </div>
 
         <Form form={form} component={false}>
             <Table
-                // size='small'
+                size='small'
                 onChange={handleChange}
                 id='table'
                 loading={loading}
@@ -436,7 +428,10 @@ const deleteRecord = (record) => {
                 pagination={false}
             />
         </Form>
-    </>
+        <Col span={24} style={{ padding: '1rem', textAlign: 'end' }}>
+                <Button type='primary' onClick={addDeviceParameter}>Add</Button>
+        </Col>
+    </div>
     );
 };
 

@@ -30,12 +30,12 @@ class Footer extends Component {
             <>
                 <div style={{ 'padding': '1rem 3rem' }}>
                     <Row>
-                        <Col span={2}>
+                        {/* <Col span={2}>
                             <Button onClick={this.handleLogin} type='primary'>Login</Button>
                         </Col>
                         <Col span={2}>
                             <Button>Exit</Button>
-                        </Col>
+                        </Col> */}
                     </Row>
                     <Modal
                         title="Log In"

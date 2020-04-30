@@ -1,22 +1,41 @@
 
 .MainLayout {
-    border: 1px solid red;
-    color: red;
-    background-color: blue;
-    li {
-        color: red;
-        border: 1px solid red;
-    }
-    li.ant-menu-item-selected {
+    .ant-menu-item-selected {
         background-color: green !important;
-        border: 1px solid red;
-    }
-    .ant-menu-item-selected > span > span {
         color: white;
+    }
+    .ant-menu-item-selected::after {
+        border-right: none !important;
+    }
+    .ant-menu-submenu > div, ul {
+        color: green;
+    }
+    .ant-menu-item:hover.ant-menu-item-active {
+        color: white !important;
+        background-color: green;
+    }
+    .ant-menu-item {
+        display: flex;
+        span {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+    }
+    .ant-menu-submenu-title {
+        display: flex;
     }
 }
 
-
+.EditableTable {
+    .ant-table-wrapper .ant-table-content > table > thead > tr > th {
+        background-color: green !important;
+        color: white;
+    }
+    .ant-table.ant-table-small tbody > tr > td {
+        padding: 0 8px;
+    }
+}
 .ant-table-content>
 .header {
     height: 100px;
@@ -30,13 +49,20 @@
 }
 
 .footer {
-    height: 60px;
-    /* position: fixed;
+    height: 70px;
+    // /* position: fixed;
+    // left: 0;
+    // top: 0; */
+    // width: 100%;
+    // background-color: black;
+    // color: white;
+    position: fixed;
     left: 0;
-    top: 0; */
+    bottom: 0;
     width: 100%;
-    background-color: black;
+    background-color: green;
     color: white;
+    text-align: center; 
 }
 
 /* .bacimage {
