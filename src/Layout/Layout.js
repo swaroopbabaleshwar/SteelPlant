@@ -11,7 +11,7 @@ import RecipeTable from '../components/Tabs/RecipeTable';
 import styles from './Layout.less';
 
 import Footer from '../components/footer/Footer';
-import { Button, Col } from 'antd';
+import { Button, Col, Switch as Swh } from 'antd';
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -21,7 +21,8 @@ class CustomLayout extends Component {
         this.state = {
             height: window.innerHeight - 160,
             key: 1,
-            open: false
+            open: false,
+            theme: 'light',
         }
     }
 
@@ -32,6 +33,12 @@ class CustomLayout extends Component {
         this.setState(prevState => ({ open: !prevState.open }));
     }
 
+    changeTheme = value => {
+        this.setState({
+            theme: value ? 'dark' : 'light',
+        });
+    };
+
 
     render() {
         return(
@@ -41,11 +48,22 @@ class CustomLayout extends Component {
                         <Col span={24} style={{ display: 'flex', justifyContent: 'flex-end', margin: '0 50px'}}>
                             <Button type='primary' onClick={this.handleHeader} >Header</Button>
                         </Col>
-                        {this.state.open && <CustomHeader />}
+                        {this.state.open && <CustomHeader>
+                                <Swh
+                                    checked={this.state.theme === 'dark'}
+                                    onChange={this.changeTheme}
+                                    checkedChildren="Dark"
+                                    unCheckedChildren="Light"
+                                    style={{marginTop: '5px'}}
+                                />
+                            </CustomHeader>}
+                        <div className='headerData'>
+                            {/* <div style={{ width: '100%', height: '80px', 'background': 'green'}}></div> */}
+                        </div>
                     </div>
 
                     <div>
-                        <CustomPages />
+                        <CustomPages theme={this.state.theme} />
                     </div>
                     
                     <div className='footer'><Footer /></div>

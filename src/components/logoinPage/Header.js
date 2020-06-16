@@ -34,6 +34,7 @@ class Header extends Component {
                         </Col>
                         <Col span={3}>
                             <Button type='primary'>Logout</Button>
+                            {this.props.children}
                         </Col>
                     </Row>
                 {/* </Row> */}

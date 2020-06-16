@@ -4,9 +4,10 @@ import PlantType from './PlantType';
 import StoppageClasses from './StoppageClasses';
 import ConsumptionClasses from './ConsumptionClasses';
 import GradeData from './GradeData';
+import ProjectData from './ProjectData';
 
 import { Layout, Menu, Breadcrumb, Button, Modal, Input, Icon, Drawer, Switch } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined, AppstoreOutlined, MenuUnfoldOutlined, MenuFoldOutlined, PieChartOutlined, DesktopOutlined, ContainerOutlined, MailOutlined } from '@ant-design/icons';
+import { UserOutlined, LaptopOutlined, NotificationOutlined, AppstoreOutlined, MenuUnfoldOutlined, MenuFoldOutlined, PieChartOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
 import RestAPI from '../api';
 import { responsiveArray } from 'antd/lib/_util/responsiveObserve';
 import './Layout.less';
@@ -41,7 +42,6 @@ class MainLayout extends Component {
             descriptions: ['Test', 'Test', 'Test'],
             desc: '',
             collapsed: false,
-            theme: 'light',
         }
     }
 
@@ -75,10 +75,10 @@ class MainLayout extends Component {
     //     this.setState({ type });
     // }
 
-    onChange = (type, value, e) => {
-        this.setState({ [type]: value });
-        console.log(value)
-    }
+    // onChange = (type, value, e) => {
+    //     this.setState({ [type]: value });
+    //     console.log(value)
+    // }
     selected = ({ item, key, keyPath, selectedKeys, domEvent }) => {
         console.log(item, key );
         this.setState({ type: key})
@@ -88,35 +88,35 @@ class MainLayout extends Component {
         this.setState(prevState => ({ collapsed: !prevState.collapsed }));
     };
 
-    changeTheme = value => {
-        this.setState({
-            theme: value ? 'dark' : 'light',
-        });
-    };
     
     render() {
         return(
             <div className='MainLayout' style={{ 'backgroundColor': '#ececec', marginBottom: '100px' }}>
+                <div className='activeTab'>
+                    {+this.state.type === 1 && <span>Equipment Data</span>}
+                    {+this.state.type === 5 && <span>Plant Data</span>}
+                    {+this.state.type === 6 && <span>Grade Data</span>}
+                    {+this.state.type === 7 && <span>Consumption Data</span>}
+                    {+this.state.type === 8 && <span>Stoppage Data</span>}
+                    {+this.state.type === 2 && <span>Recipe Table</span>}
+                    {+this.state.type === 3 && <span>Production plan</span>}
+                    {+this.state.type === 4 && <span>Stoppage Management</span>}
+                    {+this.state.type === 10 && <span>Consumption Management</span>}
+                    {+this.state.type === 9 && <span>Project Data</span>}
+                </div>
                 <div style={{ height: 'inherit', display: 'flex', overflowY: 'scroll'}}>
                     <div className='menu' style={{ width: this.state.collapsed ? 82 : 230 }}>
                         <div className='buttons'>
                             <Button type="primary" onClick={this.toggleCollapsed}>
                                 {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
                             </Button>
-                            <Switch
-                                checked={this.state.theme === 'dark'}
-                                onChange={this.changeTheme}
-                                checkedChildren="Dark"
-                                unCheckedChildren="Light"
-                                style={{marginTop: '5px'}}
-                            />
                         </div>
                         <Menu
                             onSelect={this.selected}
                             defaultSelectedKeys={['1']}
                             defaultOpenKeys={['sub1']}
                             mode="inline"
-                            theme={this.state.theme}
+                            theme={this.props.theme}
                             inlineCollapsed={this.state.collapsed}
                         >
                             <Menu.Item key="1">
@@ -137,7 +137,7 @@ class MainLayout extends Component {
                                 <Menu.Item key="7">Consumption Data</Menu.Item>
                                 <Menu.Item key="8">Stoppage Data</Menu.Item>
                             </SubMenu>
-                            <SubMenu
+                            {/* <SubMenu
                                 key="sub2"
                                 title={
                                 <span>
@@ -145,14 +145,14 @@ class MainLayout extends Component {
                                     <span>Project Data</span>
                                 </span>
                                 }
-                            >
-                                <Menu.Item key="9">Option 9</Menu.Item>
-                                <Menu.Item key="10">Option 10</Menu.Item>
+                            > */}
+                                <Menu.Item key="9"><AppstoreOutlined />Project Data</Menu.Item>
+                                {/* <Menu.Item key="10">Option 10</Menu.Item>
                                 <SubMenu key="sub3" title="Submenu">
                                     <Menu.Item key="11">Option 11</Menu.Item>
                                     <Menu.Item key="12">Option 12</Menu.Item>
                                 </SubMenu>
-                            </SubMenu>
+                            </SubMenu> */}
                             <Menu.Item key="2">
                                 <PieChartOutlined />
                                 <span>Recipe table</span>
@@ -165,7 +165,7 @@ class MainLayout extends Component {
                                 <PieChartOutlined />
                                 <span>Stoppage Management</span>
                             </Menu.Item>
-                            <Menu.Item key="5">
+                            <Menu.Item key="10">
                                 <PieChartOutlined />
                                 <span>Consumption Management</span>
                             </Menu.Item>
@@ -193,6 +193,7 @@ class MainLayout extends Component {
                         { this.state.type === 'gradeData' && <GradeData self={this} /> }
                         { this.state.type === 'stoppage' && <StoppageClasses self={this} /> }
                         { this.state.type === 'consumption' && <ConsumptionClasses self={this} /> }
+                        { this.state.type === '9' && <ProjectData self={this} /> }
                     </div>
                 </div>
             </div>
@@ -293,11 +294,11 @@ export class Buttons extends Component{
     render() {
         return(
             <>
-                <div style={{ padding: '12px 0'}}>
-                    <Button onClick={this.openModal.bind(this, 'Add')} type='primary'>Add</Button>
+                <div style={{ padding: '12px 0', display: 'flex', justifyContent: 'space-around' }}>
+                    <Button onClick={this.openModal.bind(this, 'Add')} type='primary'>+</Button>
                     {/* <Button size='small' onClick={this.openModal.bind(this, 'Copy')} type='primary'>Copy</Button> */}
-                    <Button onClick={this.openModal.bind(this, 'Edit')} type='primary'>Edit</Button>
-                    <Button onClick={this.openModal.bind(this, 'Delete')} type='danger'>Delete</Button>
+                    <Button onClick={this.openModal.bind(this, 'Edit')} type='primary'><EditFilled /></Button>
+                    <Button onClick={this.openModal.bind(this, 'Delete')} type='danger'><DeleteFilled /></Button>
                 </div>
                 <Modal
                     title={this.props.type}

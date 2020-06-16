@@ -15,18 +15,18 @@ const EditableCell = ({ editing, dataIndex, title, inputType, record, index, chi
         <td {...restProps}>
         {editing ? (
             <Form.Item
-            name={dataIndex}
-            style={{
-                margin: 0,
-            }}
-            rules={[
-                {
-                    required: true,
-                    message: `Please Input ${title}!`,
-                },
-            ]}
-            >
-            {inputNode}
+                name={dataIndex}
+                style={{
+                    margin: 0,
+                }}
+                rules={[
+                    {
+                        required: true,
+                        message: `Please Input ${title}!`,
+                    },
+                ]}
+                >
+                {inputNode}
             </Form.Item>
         ) : (
             children
@@ -93,7 +93,7 @@ const getFieldTypes = () => {
             //     setData(data);
             // }
             setLoading(false);
-            setData(resp.data);
+            setData(addDeviceParameter(resp.data));
         }
         console.log(resp);
     }).catch(err => {
@@ -169,7 +169,7 @@ const handleDataType = (val, e, h) => {
     setData(allData);
 }
 
-const addDeviceParameter = () => {
+const addDeviceParameter = (data) => {
     const allData = [...data];
     const newData = {
         // "ID": allData.length,
@@ -183,7 +183,9 @@ const addDeviceParameter = () => {
         'type': 'add'
     };
     allData.push(newData);
-    setData(allData);
+    form.resetFields();
+    return allData;
+    // setData(allData);
     // edit(newData);
 }
 const add = async (record) => {
@@ -195,7 +197,7 @@ const add = async (record) => {
             ...record, ...row, DeviceType_Id: props.deviceTypekey
         }
     }).then(resp => {
-        getDeviceParameters(props.deviceTypekey, true);
+        resp.data && getDeviceParameters(props.deviceTypekey, true);
         console.log(resp);
     }).catch(err => {
         setLoading(false);
@@ -313,14 +315,15 @@ const deleteRecord = (record) => {
     },
     {
         title: 'Data Type',
-        // dataIndex: 'DataType',
         editable: false,
+        width: '120px',
         render: (text, record) => {
             let data = datatypes.find(data => data.Id === +record.DataType);
             return (
                 <Select
                     showSearch
-                    style={{ width: '80%' }}
+                    size='small'
+                    style={{ width: '120px' }}
                     placeholder="Select a Data Type"
                     optionFilterProp="children"
                     onChange={handleDataType.bind(this, record)}
@@ -331,7 +334,6 @@ const deleteRecord = (record) => {
                 </Select>
             );
         },
-        // ...getColumnSearchProps('DataType')
     },
     {
         title: 'Unit',
@@ -340,12 +342,14 @@ const deleteRecord = (record) => {
     },
     {
         title: 'Field Type',
+        width: '120px',
         render: (text, record) => {
             let data = fieldTypes.find(data => data.Id === +record.FieldTypeDefinition_Id);
             return (
                 <Select
                     showSearch
-                    style={{ width: '80%' }}
+                    size='small'
+                    style={{ width: '120px' }}
                     placeholder="Select a Field Type"
                     optionFilterProp="children"
                     onChange={handleFieldType.bind(this, record)}
@@ -364,20 +368,19 @@ const deleteRecord = (record) => {
         const editable = isEditing(record);
         return editable ? (
             <span>
-                {!(record.type === 'add') ? (<><a href="javascript:;" onClick={() => save(record.Id)} style={{ marginRight: 8, }} > <SaveOutlined style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}} /> </a>
+                {!(record.type === 'add') ? (<><a href="javascript:;" onClick={() => save(record.Id)} style={{ marginRight: 8, }} > <SaveOutlined style={{ fontSize: '18px', color: 'green', padding: '3px 1rem'}} /> </a>
                     <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-                    <a style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}}>X</a>
+                    <a style={{ fontSize: '18px', color: 'green', padding: '3px 1rem'}}>X</a>
                     </Popconfirm></>)
-                    :<a style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}} onClick={() => add(record)}>+</a>}
+                    :<a style={{ fontSize: '18px', color: 'green', padding: '3px 1rem'}} onClick={() => add(record)}>+</a>}
             </span>
             ) : (
                 <div style={{ width: '2rem', display: 'flex' }}>
-                    <a disabled={editingKey !== ''} onClick={() => edit(record)}> <EditOutlined style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}} /> </a>
-                    <a onClick={() => deleteRecord(record)}> <DeleteOutlined style={{ fontSize: '22px', color: 'green', padding: '0 1rem'}}/> </a>
+                    <a disabled={editingKey !== ''} onClick={() => edit(record)}> <EditOutlined style={{ fontSize: '18px', color: 'green', padding: '3px 1rem'}} /> </a>
+                    <a onClick={() => deleteRecord(record)}> <DeleteOutlined style={{ fontSize: '18px', color: 'green', padding: '3px 1rem'}}/> </a>
                 </div>
         );
       },
-    //   width: '200px'
     },
   ];
   const mergedColumns = columns.map(col => {
@@ -399,10 +402,7 @@ const deleteRecord = (record) => {
   return (
       <div className='EditableTable'>
         <div style={{ display: 'flex', padding: '10px' }}>
-            <Col span={4} style={{ color: 'green', fontWeight: 'bold', paddingTop: '5px' }} >Device Parameter list</Col>
-            {/* <Col span={4}>
-                <Button type='primary' onClick={addDeviceParameter}>Add</Button>
-            </Col> */}
+            <Col span={4} style={{ color: 'green', fontWeight: 'bold' }} >Device Parameter list</Col>
         </div>
 
         <Form form={form} component={false}>
@@ -428,9 +428,6 @@ const deleteRecord = (record) => {
                 pagination={false}
             />
         </Form>
-        <Col span={24} style={{ padding: '1rem', textAlign: 'end' }}>
-                <Button type='primary' onClick={addDeviceParameter}>Add</Button>
-        </Col>
     </div>
     );
 };

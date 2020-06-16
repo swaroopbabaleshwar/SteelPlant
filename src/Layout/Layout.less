@@ -25,6 +25,15 @@
     .ant-menu-submenu-title {
         display: flex;
     }
+
+    .activeTab {
+        height: 30px;
+        background-color: grey;
+    }
+    .activeTab > span {
+        color: white;
+        font-size: 20px;
+    }
 }
 
 .EditableTable {
@@ -146,4 +155,17 @@
 .buttons {
     display: flex;
     justify-content: space-around;
+}
+
+
+.headerData {
+    position: relative;
+    z-index: 999;
+    margin-top: -55px;
+    width: 100%;
+    background: url('../assets/bordo-header.png') no-repeat center center;
+    // background-image: url('../assets/bordo-header.png');
+    height: 80px;
+    // background-size: cover;
+    // background-repeat: no-repeat;
 }
