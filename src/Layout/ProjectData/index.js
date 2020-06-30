@@ -18,8 +18,8 @@ class ProjectData extends Component {
     render() {
         return(
             <div style={{ display: 'flex', margin: '5px' }}>
-                <ProjectEquipment onRowSelect={this.onRowSelect} />
-                <ProjectFields selectedRecordId={this.state.selectedRecord.Id} />
+                <ProjectEquipment contentHeight={this.props.contentHeight} onRowSelect={this.onRowSelect} />
+                <ProjectFields contentHeight={this.props.contentHeight} selectedRecordId={this.state.selectedRecord.Id} />
             </div>
         );
     }

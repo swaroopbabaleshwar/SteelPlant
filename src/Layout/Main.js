@@ -7,7 +7,7 @@ import GradeData from './GradeData';
 import ProjectData from './ProjectData';
 
 import { Layout, Menu, Breadcrumb, Button, Modal, Input, Icon, Drawer, Switch } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined, AppstoreOutlined, MenuUnfoldOutlined, MenuFoldOutlined, PieChartOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
+import { UserOutlined, LaptopOutlined, NotificationOutlined, AppstoreOutlined, PieChartOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
 import RestAPI from '../api';
 import { responsiveArray } from 'antd/lib/_util/responsiveObserve';
 import './Layout.less';
@@ -19,7 +19,7 @@ class MainLayout extends Component {
     constructor() {
         super();
         this.state = {
-            height: window.innerHeight - 160,
+            // height: window.innerHeight - ,
             types: [],
             type: '1',
             // selectedDeviceType: '',
@@ -41,7 +41,6 @@ class MainLayout extends Component {
             gradeCode: '',
             descriptions: ['Test', 'Test', 'Test'],
             desc: '',
-            collapsed: false,
         }
     }
 
@@ -83,15 +82,10 @@ class MainLayout extends Component {
         console.log(item, key );
         this.setState({ type: key})
     }
-
-    toggleCollapsed = () => {
-        this.setState(prevState => ({ collapsed: !prevState.collapsed }));
-    };
-
     
     render() {
         return(
-            <div className='MainLayout' style={{ 'backgroundColor': '#ececec', marginBottom: '100px' }}>
+            <div className='MainLayout' style={{ 'backgroundColor': '#ececec', marginBottom: '100px',position: 'relative', top: this.props.header }}>
                 <div className='activeTab'>
                     {+this.state.type === 1 && <span>Equipment Data</span>}
                     {+this.state.type === 5 && <span>Plant Data</span>}
@@ -104,20 +98,15 @@ class MainLayout extends Component {
                     {+this.state.type === 10 && <span>Consumption Management</span>}
                     {+this.state.type === 9 && <span>Project Data</span>}
                 </div>
-                <div style={{ height: 'inherit', display: 'flex', overflowY: 'scroll'}}>
-                    <div className='menu' style={{ width: this.state.collapsed ? 82 : 230 }}>
-                        <div className='buttons'>
-                            <Button type="primary" onClick={this.toggleCollapsed}>
-                                {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
-                            </Button>
-                        </div>
+                <div style={{ display: 'flex', overflowY: 'scroll'}}>
+                    <div className='menu' style={{ width: this.props.collapsed ? 82 : 230 }}>
                         <Menu
                             onSelect={this.selected}
                             defaultSelectedKeys={['1']}
                             defaultOpenKeys={['sub1']}
                             mode="inline"
                             theme={this.props.theme}
-                            inlineCollapsed={this.state.collapsed}
+                            inlineCollapsed={this.props.collapsed}
                         >
                             <Menu.Item key="1">
                                 <PieChartOutlined />
@@ -181,19 +170,19 @@ class MainLayout extends Component {
                                 <PieChartOutlined />
                                 <span>User management</span>
                             </Menu.Item>
-                            <Menu.Item key="9">
+                            <Menu.Item key="11">
                                 <PieChartOutlined />
                                 <span>HMI Overview</span>
                             </Menu.Item>
                         </Menu>
                     </div>
                     <div style={{ 'backgroundColor': '#ececec', width: '100%' }}>
-                        { this.state.type === '1' && <DeviceType self={this} /> }
+                        { this.state.type === '1' && <DeviceType contentHeight={this.props.contentHeight} self={this} /> }
                         { this.state.type === 'plantData' && <PlantType self={this} /> }
                         { this.state.type === 'gradeData' && <GradeData self={this} /> }
                         { this.state.type === 'stoppage' && <StoppageClasses self={this} /> }
                         { this.state.type === 'consumption' && <ConsumptionClasses self={this} /> }
-                        { this.state.type === '9' && <ProjectData self={this} /> }
+                        { this.state.type === '9' && <ProjectData contentHeight={this.props.contentHeight} self={this} /> }
                     </div>
                 </div>
             </div>

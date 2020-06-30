@@ -24,15 +24,15 @@ class Header extends Component {
         return(
             <>
                 {/* <Row> */}
-                    <Row>
+                    <Row style={{ backgroundColor: 'white' }}>
                         <Col span={4}>
                             <img style={{ width: '100%', height: '80px'}} src={logoAIC} alt={'Logo'} />
                         </Col>
-                        <Col span={13}></Col>
+                        <Col span={12}></Col>
                         <Col span={4}>
                             <img style={{ width: '100%', height: '80px'}} src={customerLogo} alt='Customer Logo' />
                         </Col>
-                        <Col span={3}>
+                        <Col span={4}>
                             <Button type='primary'>Logout</Button>
                             {this.props.children}
                         </Col>

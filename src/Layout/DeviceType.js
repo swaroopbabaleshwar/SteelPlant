@@ -210,7 +210,7 @@ class DeviceType extends Component {
 					</Col>
 				</Row>
 				<div>
-					{this.state.key && <MasterTable deviceTypekey={deviceTypekey} />}
+					{this.state.key && <MasterTable contentHeight={this.props.contentHeight} deviceTypekey={deviceTypekey} selectedFieldType={this.state.fieldType} />}
 				</div>
 				<Modal
                     title={this.state.type + ' Field Type'}

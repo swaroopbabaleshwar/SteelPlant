@@ -44,6 +44,7 @@ const EditableTable = (props) => {
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const [sortedInfo, setSortedInfo] = useState({ columnKey: '', order: ''});
+  const [copyData, setCopyData] = useState([]);
 
   const isEditing = record => record.Id === editingKey;
 
@@ -62,6 +63,19 @@ const EditableTable = (props) => {
     { Name: "Profile", Id: 14 }
 ];
 
+const searchDataType = {
+    '1': "Boolean",
+    '2': "Int16",
+    '3': "Int32",
+    '4': "Single",
+    '5': "Double",
+    '6': "String",
+    '10': "StandMode",
+    '11': "InterStandControlMode",
+    '12': "Selection",
+    '13': "CutMode",
+    '24': "Profile",
+}
   useEffect( () => {
     setLoading(true);
     getDeviceParameters(props.deviceTypekey);
@@ -71,6 +85,17 @@ const EditableTable = (props) => {
     getFieldTypes();
   }, []);
 
+  useEffect(() => {
+      if (props.selectedFieldType.Id) {
+        filterData(copyData);
+      }
+  }, [props.selectedFieldType.Id]);
+
+  const filterData = (copyData) => {
+      let filteredData = [...copyData];
+    filteredData = filteredData.filter(d => +props.selectedFieldType.Id === (d.FieldTypeDefinition_Id));
+    setData(filteredData);    
+  }
 const getFieldTypes = () => {
     RestAPI.getFieldTypes()
         .then(resp => {
@@ -94,6 +119,10 @@ const getFieldTypes = () => {
             // }
             setLoading(false);
             setData(addDeviceParameter(resp.data));
+            setCopyData(resp.data);
+            if (props.selectedFieldType.Id) {
+                filterData(resp.data);
+            }
         }
         console.log(resp);
     }).catch(err => {
@@ -250,11 +279,25 @@ const getColumnSearchProps = dataIndex => ({
       </div>
     ),
     filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
-    onFilter: (value, record) =>
-      record[dataIndex]
+    onFilter: (value, record) => {
+        if (dataIndex === 'DataType') {
+            if (!record[dataIndex]) {
+                return false;
+            }
+            return searchDataType[record[dataIndex]].toString()
+                .toLowerCase()
+                .includes(value.toLowerCase())
+            // let dataTypeId = searchDataType[value];
+            // if (dataTypeId) {
+            //     return record.DataType === +dataTypeId ? record: null;
+            // }
+            // return false;
+        }
+        return record[dataIndex]
         .toString()
         .toLowerCase()
-        .includes(value.toLowerCase()),
+        .includes(value.toLowerCase())
+    },
     onFilterDropdownVisibleChange: visible => {
       if (visible) {
         setTimeout(() => searchInput.select());
@@ -317,6 +360,7 @@ const deleteRecord = (record) => {
         title: 'Data Type',
         editable: false,
         width: '120px',
+        ...getColumnSearchProps('DataType'),
         render: (text, record) => {
             let data = datatypes.find(data => data.Id === +record.DataType);
             return (
@@ -425,7 +469,7 @@ const deleteRecord = (record) => {
                 dataSource={data}
                 columns={mergedColumns}
                 rowClassName="editable-row"
-                pagination={false}
+                pagination={{ pageSize: 50 }} scroll={{ y: props.contentHeight }}
             />
         </Form>
     </div>

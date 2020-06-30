@@ -10,6 +10,7 @@ import HMIOverview from '../components/Tabs/HMIOverview';
 import RecipeTable from '../components/Tabs/RecipeTable';
 import styles from './Layout.less';
 
+import {MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons';
 import Footer from '../components/footer/Footer';
 import { Button, Col, Switch as Swh } from 'antd';
 
@@ -19,10 +20,11 @@ class CustomLayout extends Component {
     constructor() {
         super();
         this.state = {
-            height: window.innerHeight - 160,
+            height: window.innerHeight - 100,
             key: 1,
             open: false,
             theme: 'light',
+            collapsed: false,
         }
     }
 
@@ -30,7 +32,9 @@ class CustomLayout extends Component {
         this.setState({ key });
     }
     handleHeader = () => {
-        this.setState(prevState => ({ open: !prevState.open }));
+        this.setState(prevState => {
+            return ({ open: !prevState.open });
+        } );
     }
 
     changeTheme = value => {
@@ -38,17 +42,18 @@ class CustomLayout extends Component {
             theme: value ? 'dark' : 'light',
         });
     };
+    toggleCollapsed = () => {
+        this.setState(prevState => ({ collapsed: !prevState.collapsed }));
+    };
 
 
     render() {
         return(
             <>
                 <Router>
-                    <div>
-                        <Col span={24} style={{ display: 'flex', justifyContent: 'flex-end', margin: '0 50px'}}>
-                            <Button type='primary' onClick={this.handleHeader} >Header</Button>
-                        </Col>
+                    <div style={{ position: 'fixed', top: '0', width: '100%', zIndex: '1' }}>
                         {this.state.open && <CustomHeader>
+                            <>
                                 <Swh
                                     checked={this.state.theme === 'dark'}
                                     onChange={this.changeTheme}
@@ -56,14 +61,24 @@ class CustomLayout extends Component {
                                     unCheckedChildren="Light"
                                     style={{marginTop: '5px'}}
                                 />
+                                <div className='buttons'>
+                                    <Button type="primary" onClick={this.toggleCollapsed}>
+                                        {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
+                                    </Button>
+                                </div>
+                            </>
                             </CustomHeader>}
                         <div className='headerData'>
                             {/* <div style={{ width: '100%', height: '80px', 'background': 'green'}}></div> */}
+                            <Col span={24} style={{ display: 'flex', justifyContent: 'flex-end', margin: '0 50px'}}>
+                                <Button type='primary' onClick={this.handleHeader} >Header</Button>
+                            </Col>
                         </div>
                     </div>
 
                     <div>
-                        <CustomPages theme={this.state.theme} />
+                        <CustomPages contentHeight={window.innerHeight - (375 + (this.state.open ? 94 : 0))} header={80 + (this.state.open ? 94 : 0)} theme={this.state.theme} collapsed={this.state.collapsed} >
+                        </CustomPages>
                     </div>
                     
                     <div className='footer'><Footer /></div>

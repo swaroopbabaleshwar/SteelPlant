@@ -297,6 +297,7 @@ const handleLineId = (val, e, h) => {
         title: 'Name',
         dataIndex: 'Name',
         key: 'Name',
+        width: 100,
         editable: true,
         sorter: function(a, b) { return (a.Name.localeCompare(b.Name)) },
         sortOrder: sortedInfo.columnKey === 'Name' && sortedInfo.order,
@@ -307,6 +308,7 @@ const handleLineId = (val, e, h) => {
         // dataIndex: 'DeviceType',
         key: 'DeviceType',
         editable: false,
+        width: 100,
         // sorter: function(a, b) { return (a.DeviceType.localeCompare(b.DeviceType)) },
         // sortOrder: sortedInfo.columnKey === 'DeviceType' && sortedInfo.order,
         // ...getColumnSearchProps('DeviceType'),
@@ -334,6 +336,7 @@ const handleLineId = (val, e, h) => {
         dataIndex: 'Description',
         key: 'Description',
         editable: true,
+        width: 130,
         sorter: function(a, b) { return (a.Description.localeCompare(b.Description)) },
         sortOrder: sortedInfo.columnKey === 'Description' && sortedInfo.order,
         ...getColumnSearchProps('Description'),
@@ -345,6 +348,7 @@ const handleLineId = (val, e, h) => {
         title: 'LineId',
         dataIndex: 'LineId',
         editable: false,
+        width: 100,
         render: (text, record) => {
             let data = lineIds.find(lineId => lineId.lineId === +record.LineId);
             return <Select
@@ -363,6 +367,7 @@ const handleLineId = (val, e, h) => {
     },
     {
       title: 'Action',
+      width: 70,
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
@@ -501,6 +506,7 @@ return (
                     columns={mergedColumns}
                     rowClassName={rowClassName}
                     pagination={{ style: {paddingRight: 15} }}
+                    pagination={{ pageSize: 50 }} scroll={{ y: props.contentHeight + 40, x: 'scroll' }}
                 />
             </Form>
         </div>
