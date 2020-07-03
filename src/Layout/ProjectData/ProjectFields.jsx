@@ -587,7 +587,7 @@ const getColumnSearchProps = dataIndex => ({
                 dataSource={data}
                 columns={mergedColumns}
                 rowClassName="editable-row"
-                pagination={{ pageSize: 50 }} scroll={{ y: props.contentHeight + 40, x: 'scroll' }}
+                pagination={{ position: ['topLeft'] }} scroll={{ y: props.contentHeight + 40, x: 'scroll' }}
             />
         </Form>
     </div>

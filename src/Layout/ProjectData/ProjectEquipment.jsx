@@ -3,7 +3,7 @@ import { UploadOutlined } from '@ant-design/icons';
 
 import RestAPI from '../../api';
 
-import { Table, Input, InputNumber, Popconfirm, Form, Select, Col, Button } from 'antd';
+import { Table, Input, InputNumber, Popconfirm, Form, Select, Col, Button, Pagination } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { SearchOutlined, SaveOutlined, EditOutlined, DeleteOutlined, ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import UploadFile from './UploadFile';
@@ -48,7 +48,8 @@ const EditableTable = (props) => {
     const [sortedInfo, setSortedInfo] = useState({ columnKey: '', order: ''});
     const [deviceTypes, setDeviceTypes] = useState([]);
     const [selectedRowKey, setSelectedRow] = useState('');
-
+    const [current, setCurrent] = useState('1');
+    
     const isEditing = record => record.Id === editingKey;
     const lineIds = [
         { lineId: 0, value: '' },
@@ -468,6 +469,10 @@ const exportProjectData = () => {
     }))
 }
 
+const onPageChange = page => {
+    setCurrent(page);
+};
+
 return (
       <>
         <div className='ProjectEquipment'>
@@ -482,33 +487,36 @@ return (
                 <UploadFile />
                 <div id='fileUpload'></div>
             </div>
-            <Form form={form} component={false}>
-                <Table
-                    size='small'
-                    onChange={handleChange}
-                    id='table'
-                    loading={loading}
-                    components={{
-                        body: {
-                            cell: EditableCell,
-                        },
-                    }}
-                    onRow={(record, index) => {
-                        return {
-                            onClick: event => {
-                                // edit(record, true);
-                                onRowSelect(record);
+            <div>
+                {/* <Pagination current={current} onChange={onPageChange} total={50} /> */}
+                <Form form={form} component={false}>
+                    <Table
+                        size='small'
+                        onChange={handleChange}
+                        id='table'
+                        loading={loading}
+                        components={{
+                            body: {
+                                cell: EditableCell,
                             },
-                        }
-                    }}
-                    bordered
-                    dataSource={data}
-                    columns={mergedColumns}
-                    rowClassName={rowClassName}
-                    pagination={{ style: {paddingRight: 15} }}
-                    pagination={{ pageSize: 50 }} scroll={{ y: props.contentHeight + 40, x: 'scroll' }}
-                />
-            </Form>
+                        }}
+                        onRow={(record, index) => {
+                            return {
+                                onClick: event => {
+                                    // edit(record, true);
+                                    onRowSelect(record);
+                                },
+                            }
+                        }}
+                        bordered
+                        dataSource={data}
+                        columns={mergedColumns}
+                        rowClassName={rowClassName}
+                        // pagination={{ style: {paddingRight: 15} }}
+                        pagination={{ position: ['topRight'] }} scroll={{ y: props.contentHeight + 40, x: 'scroll' }}
+                    />
+                </Form>
+            </div>
         </div>
       </>
     );

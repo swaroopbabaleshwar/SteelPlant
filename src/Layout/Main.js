@@ -7,7 +7,7 @@ import GradeData from './GradeData';
 import ProjectData from './ProjectData';
 
 import { Layout, Menu, Breadcrumb, Button, Modal, Input, Icon, Drawer, Switch } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined, AppstoreOutlined, PieChartOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
+import { UserOutlined, LaptopOutlined, NotificationOutlined, AppstoreOutlined, PieChartOutlined, MenuUnfoldOutlined, MenuFoldOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
 import RestAPI from '../api';
 import { responsiveArray } from 'antd/lib/_util/responsiveObserve';
 import './Layout.less';
@@ -41,6 +41,7 @@ class MainLayout extends Component {
             gradeCode: '',
             descriptions: ['Test', 'Test', 'Test'],
             desc: '',
+            collapsed: false,
         }
     }
 
@@ -82,31 +83,24 @@ class MainLayout extends Component {
         console.log(item, key );
         this.setState({ type: key})
     }
+
+    toggleCollapsed = () => {
+        this.setState(prevState => ({ collapsed: !prevState.collapsed }));
+    };
+
     
     render() {
         return(
             <div className='MainLayout' style={{ 'backgroundColor': '#ececec', marginBottom: '100px',position: 'relative', top: this.props.header }}>
-                <div className='activeTab'>
-                    {+this.state.type === 1 && <span>Equipment Data</span>}
-                    {+this.state.type === 5 && <span>Plant Data</span>}
-                    {+this.state.type === 6 && <span>Grade Data</span>}
-                    {+this.state.type === 7 && <span>Consumption Data</span>}
-                    {+this.state.type === 8 && <span>Stoppage Data</span>}
-                    {+this.state.type === 2 && <span>Recipe Table</span>}
-                    {+this.state.type === 3 && <span>Production plan</span>}
-                    {+this.state.type === 4 && <span>Stoppage Management</span>}
-                    {+this.state.type === 10 && <span>Consumption Management</span>}
-                    {+this.state.type === 9 && <span>Project Data</span>}
-                </div>
                 <div style={{ display: 'flex', overflowY: 'scroll'}}>
-                    <div className='menu' style={{ width: this.props.collapsed ? 82 : 230 }}>
+                    <div className='menu' style={{ display: 'flex', width: this.state.collapsed ? 82 : 230 }}>
                         <Menu
                             onSelect={this.selected}
                             defaultSelectedKeys={['1']}
                             defaultOpenKeys={['sub1']}
                             mode="inline"
                             theme={this.props.theme}
-                            inlineCollapsed={this.props.collapsed}
+                            inlineCollapsed={this.state.collapsed}
                         >
                             <Menu.Item key="1">
                                 <PieChartOutlined />
@@ -175,8 +169,25 @@ class MainLayout extends Component {
                                 <span>HMI Overview</span>
                             </Menu.Item>
                         </Menu>
+                        <div>
+                            <Button type="primary" onClick={this.toggleCollapsed}>
+                                {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
+                            </Button>
+                        </div>
                     </div>
                     <div style={{ 'backgroundColor': '#ececec', width: '100%' }}>
+                        <div className='activeTab'>
+                            {+this.state.type === 1 && <span>Equipment Data</span>}
+                            {+this.state.type === 5 && <span>Plant Data</span>}
+                            {+this.state.type === 6 && <span>Grade Data</span>}
+                            {+this.state.type === 7 && <span>Consumption Data</span>}
+                            {+this.state.type === 8 && <span>Stoppage Data</span>}
+                            {+this.state.type === 2 && <span>Recipe Table</span>}
+                            {+this.state.type === 3 && <span>Production plan</span>}
+                            {+this.state.type === 4 && <span>Stoppage Management</span>}
+                            {+this.state.type === 10 && <span>Consumption Management</span>}
+                            {+this.state.type === 9 && <span>Project Data</span>}
+                        </div>
                         { this.state.type === '1' && <DeviceType contentHeight={this.props.contentHeight} self={this} /> }
                         { this.state.type === 'plantData' && <PlantType self={this} /> }
                         { this.state.type === 'gradeData' && <GradeData self={this} /> }

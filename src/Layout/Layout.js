@@ -10,7 +10,6 @@ import HMIOverview from '../components/Tabs/HMIOverview';
 import RecipeTable from '../components/Tabs/RecipeTable';
 import styles from './Layout.less';
 
-import {MenuUnfoldOutlined, MenuFoldOutlined} from '@ant-design/icons';
 import Footer from '../components/footer/Footer';
 import { Button, Col, Switch as Swh } from 'antd';
 
@@ -24,7 +23,6 @@ class CustomLayout extends Component {
             key: 1,
             open: false,
             theme: 'light',
-            collapsed: false,
         }
     }
 
@@ -42,10 +40,6 @@ class CustomLayout extends Component {
             theme: value ? 'dark' : 'light',
         });
     };
-    toggleCollapsed = () => {
-        this.setState(prevState => ({ collapsed: !prevState.collapsed }));
-    };
-
 
     render() {
         return(
@@ -61,11 +55,6 @@ class CustomLayout extends Component {
                                     unCheckedChildren="Light"
                                     style={{marginTop: '5px'}}
                                 />
-                                <div className='buttons'>
-                                    <Button type="primary" onClick={this.toggleCollapsed}>
-                                        {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
-                                    </Button>
-                                </div>
                             </>
                             </CustomHeader>}
                         <div className='headerData'>
