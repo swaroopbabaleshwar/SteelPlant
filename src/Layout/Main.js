@@ -5,6 +5,7 @@ import StoppageClasses from './StoppageClasses';
 import ConsumptionClasses from './ConsumptionClasses';
 import GradeData from './GradeData';
 import ProjectData from './ProjectData';
+import Products from './Settings/Products';
 
 import { Layout, Menu, Breadcrumb, Button, Modal, Input, Icon, Drawer, Switch } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, AppstoreOutlined, PieChartOutlined, MenuUnfoldOutlined, MenuFoldOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
@@ -117,6 +118,7 @@ class MainLayout extends Component {
                             >
                                 <Menu.Item key="5">Plant Data</Menu.Item>
                                 <Menu.Item key="6">Grade Data</Menu.Item>
+                                <Menu.Item key="products">Products</Menu.Item>
                                 <Menu.Item key="7">Consumption Data</Menu.Item>
                                 <Menu.Item key="8">Stoppage Data</Menu.Item>
                             </SubMenu>
@@ -187,12 +189,14 @@ class MainLayout extends Component {
                             {+this.state.type === 4 && <span>Stoppage Management</span>}
                             {+this.state.type === 10 && <span>Consumption Management</span>}
                             {+this.state.type === 9 && <span>Project Data</span>}
+                            {this.state.type === 'products' && <span>Products</span>}
                         </div>
                         { this.state.type === '1' && <DeviceType contentHeight={this.props.contentHeight} self={this} /> }
                         { this.state.type === 'plantData' && <PlantType self={this} /> }
                         { this.state.type === 'gradeData' && <GradeData self={this} /> }
                         { this.state.type === 'stoppage' && <StoppageClasses self={this} /> }
                         { this.state.type === 'consumption' && <ConsumptionClasses self={this} /> }
+                        { this.state.type === 'products' && <Products contentHeight={this.props.contentHeight} /> }
                         { this.state.type === '9' && <ProjectData contentHeight={this.props.contentHeight} self={this} /> }
                     </div>
                 </div>

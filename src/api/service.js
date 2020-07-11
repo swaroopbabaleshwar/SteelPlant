@@ -161,8 +161,35 @@ const RESTAPI = {
         addHeaders(params);
 
         return Rest(params);
-    }
+    },
+    getProducts: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/GetProducts';
+        params.method = 'GET';
+        addHeaders(params);
 
+        return Rest(params);
+    },
+    editProducts: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/UpdateProduct';
+        params.method = 'GET';
+        addHeaders(params);
+
+        return Rest(params);
+    },
+    deleteProduct: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/DeleteProduct';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
+    },
+    addProduct: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/AddProduct';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
+    }
 }
 
 

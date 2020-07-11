@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
 import CustomHeader from '../components/logoinPage/Header';
 import CustomPages from './Main';
-import MasterData from '../components/Tabs/MasterData';
-import PlantData from '../components/Tabs/PlantData';
-import ProductionPlan from '../components/Tabs/ProductionPlan';
-import StorageManagement from '../components/Tabs/StorageManagement';
-import ConsumptionManagement from '../components/Tabs/ConsumptionManagement';
-import HMIOverview from '../components/Tabs/HMIOverview';
-import RecipeTable from '../components/Tabs/RecipeTable';
-import styles from './Layout.less';
 
 import Footer from '../components/footer/Footer';
 import { Button, Col, Switch as Swh } from 'antd';
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 class CustomLayout extends Component {
     constructor() {

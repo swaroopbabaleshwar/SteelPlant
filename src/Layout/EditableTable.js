@@ -86,15 +86,15 @@ const searchDataType = {
   }, []);
 
   useEffect(() => {
-      if (props.selectedFieldType.Id) {
-        filterData(copyData);
-      }
+    filterData();
   }, [props.selectedFieldType.Id]);
 
-  const filterData = (copyData) => {
-      let filteredData = [...copyData];
-    filteredData = filteredData.filter(d => +props.selectedFieldType.Id === (d.FieldTypeDefinition_Id));
-    setData(filteredData);    
+  const filterData = () => {
+    let filteredData = [...copyData];
+    if (props.selectedFieldType.Id) {
+        filteredData = filteredData.filter(d => +props.selectedFieldType.Id === (d.FieldTypeDefinition_Id));
+    }
+    setData(filteredData);
   }
 const getFieldTypes = () => {
     RestAPI.getFieldTypes()

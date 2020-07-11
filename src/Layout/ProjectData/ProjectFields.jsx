@@ -86,26 +86,7 @@ const EditableTable = (props) => {
         }).catch(err => {
             setLoading(false);
         });
-    
-    // RestAPI.getDeviceParameters({
-    //     params: {
-    //         id: key
-    //     }
-    // }).then(resp => {
-    //     if (resp && resp.data) {
-    //         // if (remove) {
-    //         //     data.shift();
-    //         //     setData(data);
-    //         // }
-    //         setLoading(false);
-    //         setData(addDeviceParameter(resp.data));
-    //     }
-    //     console.log(resp);
-    // }).catch(err => {
-    //     console.log(err);
-    //     setLoading(false);
-    // });
-}
+    }
 
 const getFieldTypes = () => {
     RestAPI.getFieldTypes()

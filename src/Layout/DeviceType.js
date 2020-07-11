@@ -4,7 +4,7 @@ import RestAPI from '../api';
 import { Buttons } from './Main';
 import MasterTable from './EditableTable';
 
-import { Row, Col, Card, Select, Button, Modal, Input } from 'antd';
+import { Row, Col, Select, Button, Modal, Input } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
@@ -13,11 +13,6 @@ class DeviceType extends Component {
     constructor(props) {
         super();
         this.state = {
-            // types: [{ type: 'STAND', desc: 'stand' },
-            //         {type: 'PR', desc: 'PinchRoll'},
-            //         {type: 'SH', desc: 'shear'},
-            //         {type: 'TB', desc: 'TailBreaker'}
-            //     ],
 			selectedDeviceType: '',
 			key: '',
 			type: '',
@@ -29,6 +24,9 @@ class DeviceType extends Component {
 
     onChange = (type, key, e) => {
 		if (type === 'fieldType') {
+			if (!e) {
+				return this.setState({ fieldType: {Id: '',Name: ''} });
+			}
 			this.setState({ fieldType: {Id: e.key, Name: e.value} });
 			return;
 		}
@@ -181,7 +179,7 @@ class DeviceType extends Component {
                             optionFilterProp="children"
                             onChange={this.onChange.bind(this, 'deviceType')}
                             value={this.state.selectedDeviceType}
-                            showSearch showArrow allowClear={false}
+                            showSearch showArrow
                         >
                             {parentThis.state.types.map(device => <Option key={device.Id} value={device.Key}>{device.Name + ' - ' + device.Description}</Option>)}
                         </Select>
@@ -197,8 +195,8 @@ class DeviceType extends Component {
                             placeholder="Select a Field Type"
                             optionFilterProp="children"
                             onChange={this.onChange.bind(this, 'fieldType')}
-                            value={this.state.fieldType.Name}
-                            showSearch showArrow allowClear={false}
+                            value={this.state.fieldType.Name} allowClear
+                            showSearch showArrow
                         >
                             {this.state.fieldTypes.map(field => <Option key={field.Id} value={field.Name}>{field.Name}</Option>)}
                         </Select>
