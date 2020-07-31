@@ -6,6 +6,9 @@ import ConsumptionClasses from './ConsumptionClasses';
 import GradeData from './GradeData';
 import ProjectData from './ProjectData';
 import Products from './Settings/Products';
+import Materials from './Settings/Materials';
+import DelayCodes from './Settings/DelayCodes';
+import SystemParameter from './Settings/SystemParameter';
 
 import { Layout, Menu, Breadcrumb, Button, Modal, Input, Icon, Drawer, Switch } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined, AppstoreOutlined, PieChartOutlined, MenuUnfoldOutlined, MenuFoldOutlined, DesktopOutlined, ContainerOutlined, MailOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
@@ -14,7 +17,6 @@ import { responsiveArray } from 'antd/lib/_util/responsiveObserve';
 import './Layout.less';
 
 const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
 
 class MainLayout extends Component {
     constructor() {
@@ -118,7 +120,10 @@ class MainLayout extends Component {
                             >
                                 <Menu.Item key="5">Plant Data</Menu.Item>
                                 <Menu.Item key="6">Grade Data</Menu.Item>
+                                <Menu.Item key="systemParam">System Parameter</Menu.Item>
                                 <Menu.Item key="products">Products</Menu.Item>
+                                <Menu.Item key="materials">Materials</Menu.Item>
+                                <Menu.Item key="delayCode">Delay Codes</Menu.Item>
                                 <Menu.Item key="7">Consumption Data</Menu.Item>
                                 <Menu.Item key="8">Stoppage Data</Menu.Item>
                             </SubMenu>
@@ -190,6 +195,9 @@ class MainLayout extends Component {
                             {+this.state.type === 10 && <span>Consumption Management</span>}
                             {+this.state.type === 9 && <span>Project Data</span>}
                             {this.state.type === 'products' && <span>Products</span>}
+                            {this.state.type === 'materials' && <span>Materials</span>}
+                            {this.state.type === 'delayCode' && <span>Delay Codes</span>}
+                            {this.state.type === 'systemParam' && <span>System Parameter</span>}
                         </div>
                         { this.state.type === '1' && <DeviceType contentHeight={this.props.contentHeight} self={this} /> }
                         { this.state.type === 'plantData' && <PlantType self={this} /> }
@@ -198,6 +206,9 @@ class MainLayout extends Component {
                         { this.state.type === 'consumption' && <ConsumptionClasses self={this} /> }
                         { this.state.type === 'products' && <Products contentHeight={this.props.contentHeight} /> }
                         { this.state.type === '9' && <ProjectData contentHeight={this.props.contentHeight} self={this} /> }
+                        { this.state.type === 'materials' && <Materials contentHeight={this.props.contentHeight} /> }
+                        { this.state.type === 'delayCode' && <DelayCodes contentHeight={this.props.contentHeight} /> }
+                        { this.state.type === 'systemParam' && <SystemParameter contentHeight={this.props.contentHeight} /> }
                     </div>
                 </div>
             </div>

@@ -189,6 +189,76 @@ const RESTAPI = {
         addHeaders(params);
         
         return Rest(params);
+    },
+    getSubProducts: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/GetSubProducts';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
+    },
+    updateSemiProduct: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/UpdateSemiProduct';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
+    },
+    addSemiProduct: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/AddSemiProduct';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
+    },
+    deleteSemiProduct: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/DeleteSemiProduct';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
+    },
+    getDelayReasons: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Reports/GetDelayReasons';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
+    },
+    deleteMainReason: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Reports/DeleteMasterCode';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
+    },
+    addMainReason: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Reports/AddMasterCode';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
+    },
+    editMainReason: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Reports/UpdateMasterCode';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
+    },
+    getSystemParams: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/GetSettings';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
+    },
+    editSystemParams: (params = {}) => {
+        params.url = API.DEVICE.DOMAIN + '/Home/UpdateSetting';
+        params.method = 'GET';
+        addHeaders(params);
+        
+        return Rest(params);
     }
 }
 
